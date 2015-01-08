@@ -1,0 +1,698 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UpgradedTaskList</name>
+    </assembly>
+    <members>
+        <member name="T:UpgradedTaskList.TaskListControl">
+            <summary>
+            Interaction logic for TaskList.xaml
+            </summary>
+            <summary>
+            TaskListControl
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.#ctor">
+            <summary>
+            Constructor for TaskList control
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.InitializeViewModel(EnvDTE80.DTE2@)">
+            <summary>
+            Instantiates the View Model
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.ReadAllTasksAndFilter">
+            <summary>
+            Reads all tasks from the application objet and filters them based on the current token and scope
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.listviewTasks_MouseDoubleClick(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Called when the user double clicks on an item in the tasks list - it navigates to the highlight task item
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.comboScope_SelectionChanged(System.Object,System.Windows.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Item changed in the scope of the project - will refilter the tasks based on the new filter
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.comboToken_SelectionChanged(System.Object,System.Windows.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Selected token selection changed event - will refilter the tasks based on the new filter
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.SolutionClosing_EventHandler">
+            <summary>
+            Called when a solution closes - clear the task list
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.SolutionOpened_EventHandler">
+            <summary>
+            Called when a solution opens - Reread the task list
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.WindowActivated_EventHandler">
+            <summary>
+            Called whenever a new file is opened in the editor
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListControl.ApplicationObject">
+            <summary>
+            Reference to the application
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListControl.TaskListCount">
+            <summary>
+            Gets the task list size
+            </summary>
+        </member>
+        <member name="T:UpgradedTaskList.CommentTokenViewModel">
+            <summary>
+            Class to hold all comment tokens add addition/removal
+            </summary>
+        </member>
+        <member name="T:MVVMLibrary.ObservableObject">
+            <summary>
+            Updates the GUI when a property changes in the viewmodel
+            </summary>
+        </member>
+        <member name="M:MVVMLibrary.ObservableObject.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Updates the handler when property updates
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:MVVMLibrary.ObservableObject.OnPropertyChanged``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Updates the handler when property updates
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="propertyExpresssion"></param>
+        </member>
+        <member name="M:MVVMLibrary.ObservableObject.OnPropertyChanged(System.String)">
+            <summary>
+            Updates the handler when property updates
+            </summary>
+            <param name="propertyName"></param>
+        </member>
+        <member name="M:MVVMLibrary.ObservableObject.VerifyPropertyName(System.String)">
+            <summary>
+            Warns the developer if this Object does not have a public property with
+            the specified name. This method does not exist in a Release build.
+            </summary>
+        </member>
+        <member name="E:MVVMLibrary.ObservableObject.PropertyChanged">
+            <summary>
+            Event called when property updates
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.CommentTokenViewModel.#ctor(EnvDTE80.DTE2@)">
+            <summary>
+            Constructor for initially reading all the comment tokens
+            </summary>
+            <param name="ApplicationObject"></param>
+        </member>
+        <member name="M:UpgradedTaskList.CommentTokenViewModel.GetCommentTokens">
+            <summary>
+            Read all the comment tokens from the application object
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.CommentTokenViewModel.AddToken(System.String)">
+            <summary>
+            Add a token to the list of token and save it
+            </summary>
+            <param name="tokenName">Name of the new token</param>
+        </member>
+        <member name="M:UpgradedTaskList.CommentTokenViewModel.RemoveToken(System.String)">
+            <summary>
+            Remove a token from the list of tokens and save it
+            </summary>
+            <param name="tokenName">Token name to remove</param>
+        </member>
+        <member name="M:UpgradedTaskList.CommentTokenViewModel.AddItemToArray(System.Object[],System.String)">
+            <summary>
+            Add a token to the array of tokens by name
+            </summary>
+            <param name="array">List of all tokens</param>
+            <param name="itemToAdd">String name of the token</param>
+            <returns>Modified array with token added</returns>
+        </member>
+        <member name="M:UpgradedTaskList.CommentTokenViewModel.RemoveItemFromArray(System.Object[],System.String)">
+            <summary>
+            Remove a token from the array of tokens by name
+            </summary>
+            <param name="array">List of all tokens</param>
+            <param name="itemToRemove">String name of the token</param>
+            <returns>Modified array with token removed</returns>
+        </member>
+        <member name="P:UpgradedTaskList.CommentTokenViewModel.TokensFull">
+            <summary>
+            Contains a list of all comment tokens as objects on this instance of Visual Studio
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.CommentTokenViewModel.Tokens">
+            <summary>
+            Contains a slightly adjust readable version of the tokens, removing the :2 at the end
+            Also adding "ALL" as an option and removing the last option "UnresolvedMergeConflict
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.#ctor(EnvDTE80.DTE2@,System.String,System.Int32)">
+            <summary>
+            Constructor, create a TaskListItemViewModel for each TaskItem in TaskList
+            </summary>
+            <param name="ApplicationObject">Reference to the main application</param>
+            <param name="selectedToken">Selected token from the GUI</param>
+            <param name="selectedScopeIndex">Selected scope index from the GUI</param>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.RemoveTasksFromCurrentFile">
+            <summary>
+            Remove the tasks whose filename matches the currently open file
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.CreateFilteredTaskCollection(System.String,System.Int32)">
+            <summary>
+            Filter the taskitems based on the token string and/or the scope
+            </summary>
+            <param name="token">Token to filter on (e.g. TODO or HACK)</param>
+            <param name="scope">Scope to filter tasks on (e.g. Project or Class)</param>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.ClearTaskCollections">
+            <summary>
+            Clears the task collection when changing projects
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.FilterTasks">
+            <summary>
+            Filter all tasks - filters based on the locally stored variables (can be re-run internally)
+            </summary>
+            <returns>Collection of all task list items</returns>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.GetCurrentFile">
+            <summary>
+            Returns the current filename of the file open in the editor
+            </summary>
+            <returns>current filename of the file open in the editor</returns>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.GetFilesInProject">
+            <summary>
+            Gets a list of all files contained in the current open project
+            </summary>
+            <returns>List of all files in the current project</returns>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.GetActiveProject">
+            <summary>
+            Returns the active project as a project object
+            </summary>
+            <returns>Project object</returns>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.UpdateSortChars(System.String)">
+            <summary>
+            Clears all sort characters on the grid view column headers then set the correct one
+            </summary>
+            <param name="sortChar">Line Sorting character - can be "", "▲" or "▼";</param>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemCollectionViewModel.SortTaskCollection">
+            <summary>
+            Sort Tasks based on the current sort character
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemCollectionViewModel.TaskCollection">
+            <summary>
+            Collection of all TaskListItemViewModel
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemCollectionViewModel.FilteredTaskCollection">
+            <summary>
+            Filtered collection of TaskListItemViewModel for use with the listview in the GUI
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemCollectionViewModel.DescriptionSortChar">
+            <summary>
+            Description Sorting character - can be "", "▲" or "▼";
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemCollectionViewModel.FileSortChar">
+            <summary>
+            File Sorting character - can be "", "▲" or "▼";
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemCollectionViewModel.LineSortChar">
+            <summary>
+            Line Sorting character - can be "", "▲" or "▼";
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemCollectionViewModel.SortOnDescription">
+            <summary>
+            Command for sorting on description
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemCollectionViewModel.SortOnFile">
+            <summary>
+            Command for sorting on File
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemCollectionViewModel.SortOnLine">
+            <summary>
+            Command for sorting on line
+            </summary>
+        </member>
+        <member name="T:UpgradedTaskList.SortChar">
+            <summary>
+            Essentially works as a String enum
+            </summary>
+        </member>
+        <member name="T:MVVMLibrary.PropertySupport">
+            <summary>
+            Property Support Class
+            </summary>
+        </member>
+        <member name="M:MVVMLibrary.PropertySupport.ExtractPropertyName``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Used to extract the property name from the expression
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="propertyExpresssion"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UpgradedTaskList.Connect">
+            <summary>The object for implementing an Add-in.</summary>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="F:UpgradedTaskList.Connect.taskUpdateDelayTimer">
+            <summary>
+            Delay before firing the command to re-read tasks
+            Stops the tasks being read every time something is typed
+            Only when no text has changed in the editor for the UPDATE_DELAY duration will the updates occur.
+            Also, the application's task list doesn't update for at least 1 second after changes are made.
+            </summary>
+        </member>
+        <member name="F:UpgradedTaskList.Connect.solutionOpenedDelayTimer">
+            <summary>
+            Delay before reading tasks after a new solution opens
+            There is an in-built delay in the standard task list before it gets updated
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.#ctor">
+            <summary>Implements the constructor for the Add-in object. Place your initialization code within this method.</summary>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.OnConnection(System.Object,Extensibility.ext_ConnectMode,System.Object,System.Array@)">
+            <summary>Implements the OnConnection method of the IDTExtensibility2 interface. Receives notification that the Add-in is being loaded.</summary>
+            <param term='application'>Root object of the host application.</param>
+            <param term='connectMode'>Describes how the Add-in is being loaded.</param>
+            <param term='addInInst'>Object representing this Add-in.</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:UpgradedTaskList.Connect.AddToolWindow">
+            <summary>
+            Loads the tool window for upgraded task window
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.AddToolWindowMenuItem">
+            <summary>
+            Adds the Upgraded Task Window menu item to the tool window items
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.SetTabNameOnWindow(System.String)">
+            <summary>
+            Due to a bug in the way Visual Studio uses WPF add-in windows, this is the only way to change the tab name text
+            </summary>
+            <param name="guidString">GUID of the tool window as a string</param>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.OnDisconnection(Extensibility.ext_DisconnectMode,System.Array@)">
+            <summary>Implements the OnDisconnection method of the IDTExtensibility2 interface. Receives notification that the Add-in is being unloaded.</summary>
+            <param term='disconnectMode'>Describes how the Add-in is being unloaded.</param>
+            <param term='custom'>Array of parameters that are host application specific.</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:UpgradedTaskList.Connect.OnAddInsUpdate(System.Array@)">
+            <summary>Implements the OnAddInsUpdate method of the IDTExtensibility2 interface. Receives notification when the collection of Add-ins has changed.</summary>
+            <param term='custom'>Array of parameters that are host application specific.</param>
+            <seealso class='IDTExtensibility2' />		
+        </member>
+        <member name="M:UpgradedTaskList.Connect.OnStartupComplete(System.Array@)">
+            <summary>Implements the OnStartupComplete method of the IDTExtensibility2 interface. Receives notification that the host application has completed loading.</summary>
+            <param term='custom'>Array of parameters that are host application specific.</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:UpgradedTaskList.Connect.OnBeginShutdown(System.Array@)">
+            <summary>Implements the OnBeginShutdown method of the IDTExtensibility2 interface. Receives notification that the host application is being unloaded.</summary>
+            <param term='custom'>Array of parameters that are host application specific.</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:UpgradedTaskList.Connect.QueryStatus(System.String,EnvDTE.vsCommandStatusTextWanted,EnvDTE.vsCommandStatus@,System.Object@)">
+            <summary>Implements the QueryStatus method of the IDTCommandTarget interface. This is called when the command's availability is updated</summary>
+            <param term='commandName'>The name of the command to determine state for.</param>
+            <param term='neededText'>Text that is needed for the command.</param>
+            <param term='status'>The state of the command in the user interface.</param>
+            <param term='commandText'>Text requested by the neededText parameter.</param>
+            <seealso class='Exec' />
+        </member>
+        <member name="M:UpgradedTaskList.Connect.Exec(System.String,EnvDTE.vsCommandExecOption,System.Object@,System.Object@,System.Boolean@)">
+            <summary>Implements the Exec method of the IDTCommandTarget interface. This is called when the command is invoked.</summary>
+            <param term='commandName'>The name of the command to execute.</param>
+            <param term='executeOption'>Describes how the command should be run.</param>
+            <param term='varIn'>Parameters passed from the caller to the command handler.</param>
+            <param term='varOut'>Parameters passed from the command handler to the caller.</param>
+            <param term='handled'>Informs the caller if the command was handled or not.</param>
+            <seealso class='Exec' />
+        </member>
+        <member name="M:UpgradedTaskList.Connect.solutionEvents_Opened">
+            <summary>
+            Called when a new solution is opened
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.solutionEvents_BeforeClosing">
+            <summary>
+            Called just before the current solution closes
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.windowEvents_WindowActivated(EnvDTE.Window,EnvDTE.Window)">
+            <summary>
+            Called when the current open window changes in the editor
+            </summary>
+            <param name="GotFocus">Window that has focus</param>
+            <param name="LostFocus">Window that lost focus</param>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.textEditorEvents_LineChanged(EnvDTE.TextPoint,EnvDTE.TextPoint,System.Int32)">
+            <summary>
+            Called whenever any line is changed in the current text document
+            </summary>
+            <param name="StartPoint"></param>
+            <param name="EndPoint"></param>
+            <param name="Hint"></param>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.taskUpdateTimer_Elapsed(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            This event is waiting for the internal task list to update then
+            updates and filters the add-on list
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.Connect.solutionOpenedTimer_Elapsed(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            When the solution is opened, it can take a long timer before the tasks are read through
+            This timer will try to reread all the tasks. If there are no tasks found, it will retry
+            for a certain amount of timer before giving up
+            </summary>
+        </member>
+        <member name="T:UpgradedTaskList.TokenEditor">
+            <summary>
+            Interaction logic for TokenEditor.xaml
+            </summary>
+            <summary>
+            TokenEditor
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TokenEditor.#ctor">
+            <summary>
+            Constructor to setup the view model and set it to the data context
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TokenEditor.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TokenEditor.Token">
+            <summary>
+            Token reference from the View model
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TokenEditorViewModel.#ctor">
+            <summary>
+            Constructor, creates the regex match object to check against when the toen is typed
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TokenEditorViewModel.Token">
+            <summary>
+            Keeps track of the token string
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TokenEditorViewModel.TokenValid">
+            <summary>
+            True when the token is valid
+            Must be alphanumerical, or the following special characters _ $ ()
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TokenEditorViewModel.TokenInvalid">
+            <summary>
+            Inverse of TokenValid (for GUI)
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemViewModel.#ctor(EnvDTE.TaskItem)">
+            <summary>
+            Constructor - create the TaskListItem from the supplied TaskItem
+            </summary>
+            <param name="taskItem">TaskItem reference from the visual studio environment</param>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemViewModel.Equals(UpgradedTaskList.TaskListItemViewModel)">
+            <summary>
+            Used to compare the two tasklist items
+            </summary>
+            <param name="item">TaskListItem Object</param>
+            <returns>True if the items are completely equals (all properties)</returns>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemViewModel.Matches(UpgradedTaskList.TaskListItemViewModel)">
+            <summary>
+            Used to compare the two tasklist items
+            </summary>
+            <param name="item">TaskListItem Object</param>
+            <returns>True if the items match (full filename and line number)</returns>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemViewModel.GetTokenFromDescription(System.String)">
+            <summary>
+            Parses out the Token from the main description
+            </summary>
+            <param name="description">Description - example "TODO: something to fix!"</param>
+            <returns>Token without description i.e. TODO</returns>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListItemViewModel.GetFilenameFromFullFilename(System.String)">
+            <summary>
+            Parse the full filename including folders into only the file
+            </summary>
+            <param name="fullFilename">Full filename - C:\Users\Chris\Microsoft\Patcher\View\TaskItem.cs</param>
+            <returns>Only the file - TaskItem.cs</returns>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemViewModel.TaskListItem">
+            <summary>
+            TaskListItem object to offer up to the View
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemViewModel.Token">
+            <summary>
+            Token for the task item e.g. TODO
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemViewModel.Description">
+            <summary>
+            Description of the task
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemViewModel.Line">
+            <summary>
+            Line to locate the task
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemViewModel.Filename">
+            <summary>
+            Filename containing the task
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemViewModel.FullFilename">
+            <summary>
+            Full filename path including directory
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItemViewModel.NavigateToItem">
+            <summary>
+            Actual pointer to the navigate method
+            </summary>
+        </member>
+        <member name="T:MVVMLibrary.RelayCommand`1">
+            <summary>
+            A command whose sole purpose is to relay its functionality to other objects by invoking delegates. The default return value for the CanExecute method is 'true'.
+            </summary>
+        </member>
+        <member name="M:MVVMLibrary.RelayCommand`1.#ctor(System.Action{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MVVMLibrary.RelayCommand`1"/> class and the command can always be executed.
+            </summary>
+            <param name="execute">The execution logic.</param>
+        </member>
+        <member name="M:MVVMLibrary.RelayCommand`1.#ctor(System.Action{`0},System.Predicate{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MVVMLibrary.RelayCommand`1"/> class.
+            </summary>
+            <param name="execute">The execution logic.</param>
+            <param name="canExecute">The execution status logic.</param>
+        </member>
+        <member name="M:MVVMLibrary.RelayCommand`1.CanExecute(System.Object)">
+            <summary>
+            Checks if the method can execute
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVVMLibrary.RelayCommand`1.Execute(System.Object)">
+            <summary>
+            Execute method of command
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="E:MVVMLibrary.RelayCommand`1.CanExecuteChanged">
+            <summary>
+            Event for when method changes if it can execute
+            </summary>
+        </member>
+        <member name="T:MVVMLibrary.RelayCommand">
+            <summary>
+            A command whose sole purpose is to relay its functionality to other objects by invoking delegates. The default return value for the CanExecute method is 'true'.
+            </summary>
+        </member>
+        <member name="M:MVVMLibrary.RelayCommand.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MVVMLibrary.RelayCommand`1"/> class and the command can always be executed.
+            </summary>
+            <param name="execute">The execution logic.</param>
+        </member>
+        <member name="M:MVVMLibrary.RelayCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MVVMLibrary.RelayCommand`1"/> class.
+            </summary>
+            <param name="execute">The execution logic.</param>
+            <param name="canExecute">The execution status logic.</param>
+        </member>
+        <member name="M:MVVMLibrary.RelayCommand.CanExecute(System.Object)">
+            <summary>
+            True if method can execute
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVVMLibrary.RelayCommand.Execute(System.Object)">
+            <summary>
+            Execute method of a command
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="E:MVVMLibrary.RelayCommand.CanExecuteChanged">
+            <summary>
+            Called when method changes if it can execute
+            </summary>
+        </member>
+        <member name="T:UpgradedTaskList.Extensions">
+            <summary>
+            Class containing all extension methods
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.Extensions.Reset(System.Timers.Timer)">
+            <summary>
+            Extension method to reset a timer
+            </summary>
+            <param name="timer">Timer object to reset</param>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControlViewModel.#ctor(EnvDTE80.DTE2@)">
+            <summary>
+            Constructor, creates each sub view model (one for tasks and one for tokens)
+            Also initializes the two comboboxes to default values
+            </summary>
+            <param name="applicationObject">Reference to the main application object</param>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControlViewModel.RefilterTaskList">
+            <summary>
+            Filters task list based on the new options selected from the GUI
+            </summary>
+        </member>
+        <member name="M:UpgradedTaskList.TaskListControlViewModel.RefilterTaskListOnFileChange">
+            <summary>
+            Filters task list when the current open file changes
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListControlViewModel.TaskViewModel">
+            <summary>
+            View model for the task item collection
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListControlViewModel.TokenViewModel">
+            <summary>
+            View model for the tokens available
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListControlViewModel.SelectedScopeIndex">
+            <summary>
+            Index of the selected scope combobox on the GUI
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListControlViewModel.SelectedToken">
+            <summary>
+            String object of the current selected token in the GUI
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListControlViewModel.AddToken">
+            <summary>
+            Command for adding a token button the GUI
+            Token must have only alphanumeric characters, _, $, ( or )
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListControlViewModel.RemoveToken">
+            <summary>
+            Command for adding a token button the GUI
+            Token must have only alphanumeric characters, _, $, ( or )
+            </summary>
+        </member>
+        <member name="T:UpgradedTaskList.TaskListControlViewModel.taskScope">
+            <summary>
+            Enum representing the different versions of scope of tasks being filtered
+            </summary>
+        </member>
+        <member name="T:UpgradedTaskList.TaskListItem">
+            <summary>
+            TaskListItem holds all data for each Tas
+            </summary>
+        </member>
+        <member name="F:UpgradedTaskList.TaskListItem.NavigateToItem">
+            <summary>
+            Actual pointer to the navigate method
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItem.Token">
+            <summary>
+            Token for the task item e.g. TODO
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItem.Description">
+            <summary>
+            Description of the task
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItem.Filename">
+            <summary>
+            Filename containing the task
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItem.FullFilename">
+            <summary>
+            Full filename including directory path
+            </summary>
+        </member>
+        <member name="P:UpgradedTaskList.TaskListItem.Line">
+            <summary>
+            Line to locate the task
+            </summary>
+        </member>
+        <member name="T:UpgradedTaskList.TaskListItem.NavigateToItemDelegate">
+            <summary>
+            Delegate used to store the navigate method for each task item
+            </summary>
+        </member>
+    </members>
+</doc>
